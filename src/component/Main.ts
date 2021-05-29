@@ -1,0 +1,46 @@
+import { Component } from "./Component";
+import { ControlPanel } from "./Controlpanel";
+import { Dashboard } from "./Dashboard";
+import { popupService } from "./Popupservice";
+
+const ArrData = [
+  {
+    title: 'Task1',
+    content: 'Content',
+  },
+  {
+    title: 'Task2',
+    content: 'Content2',
+  },
+  {
+    title: 'Task3',
+    content: 'Content3',
+  },
+];
+
+export class Main extends Component {
+    controlPanel: ControlPanel;
+  
+    dashboard: Dashboard;
+    constructor(parentNode: HTMLElement | null = null) {
+      super(parentNode, 'div', ['main']);
+      this.controlPanel = new ControlPanel(this.element);
+      this.dashboard = new Dashboard(this.element);
+  
+      this.dashboard.model.setData(ArrData);
+      this.controlPanel.onAddClick = () => {
+        popupService.showEditPopup(
+          (obj) => {
+            if (obj.title.length < 3) return 'Title should be .....';
+            this.dashboard.model.setData([
+              ...this.dashboard.model.getData(),
+              obj,
+            ]);
+  
+            return null;
+          },
+          () => {}
+        );
+      };
+    }
+  }
