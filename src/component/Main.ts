@@ -27,15 +27,17 @@ export class Main extends Component {
       this.controlPanel = new ControlPanel(this.element);
       this.dashboard = new Dashboard(this.element);
   
-      this.dashboard.model.setData(ArrData);
+      //this.dashboard.model.setData(ArrData);
+      this.dashboard.model.getList();
       this.controlPanel.onAddClick = () => {
         popupService.showEditPopup(
           (obj) => {
             if (obj.title.length < 3) return 'Title should be .....';
-            this.dashboard.model.setData([
+            this.dashboard.model.addRecord(obj);
+            /*this.dashboard.model.setData([
               ...this.dashboard.model.getData(),
               obj,
-            ]);
+            ]);*/
   
             return null;
           },

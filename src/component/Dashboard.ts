@@ -1,20 +1,20 @@
 import { Component } from "./Component";
 import { DashBoardController } from "./Dashboardcontroller";
 import { DashboardItem } from "./Dashboarditem";
-import { DashBoardModel } from "./Dashboardmodel";
+import { DashBoardModel, DashBoardServerModel } from "./Dashboardmodel";
 import { IDashboardRecord } from "./IdashboardRecord";
 import { popupService } from "./Popupservice";
 
 
 export class Dashboard extends Component {
     private items: Array<DashboardItem> = [];
-    public model: DashBoardModel;
+    public model: DashBoardServerModel;
     private controller: DashBoardController;
     constructor(parentNode: HTMLElement | null = null) {
       super(parentNode, 'div', ['list']);
-      this.model = new DashBoardModel();
+      this.model = new DashBoardServerModel();
       this.controller = new DashBoardController(this.model);
-      this.model.onUpdate.add((data) => {
+      this.model.state.onUpdate.add((data) => {
         this.setData(data);
       });
     }
@@ -23,14 +23,22 @@ export class Dashboard extends Component {
       const dashboardItem = new DashboardItem(this.element);
       dashboardItem.setData(data);
       dashboardItem.onDelete = () => {
-        this.controller.deleteItem(index);
+        if (data._id){
+          this.controller.deleteItem(data._id);
+        } else {
+          throw new Error('_id is undefined');
+        }
       };
   
   
       dashboardItem.onEdit = () => {      
         popupService.showEditPopup(
           (obj) => {
-            this.controller.editItem(obj, index);
+            if (data._id){
+              this.controller.editItem(obj, data._id);
+            } else {
+              throw new Error('_id is undefined');
+            }
             return null;
           },
           () => {},
