@@ -32,14 +32,22 @@ export class Main extends Component {
       this.controlPanel.onAddClick = () => {
         popupService.showEditPopup(
           (obj) => {
-            if (obj.title.length < 3) return 'Title should be .....';
-            this.dashboard.model.addRecord(obj);
+            //if (obj.title.length < 3) return 'Title should be .....';
+            return this.dashboard.model.addRecord(obj).then(result=>{
+              console.log(result);
+              if (result.status == 'ok'){
+                this.dashboard.model.getList();
+                return null;
+              } else {
+                return result.error || 'Invalid input';
+              }
+            });
             /*this.dashboard.model.setData([
               ...this.dashboard.model.getData(),
               obj,
             ]);*/
   
-            return null;
+            
           },
           () => {}
         );

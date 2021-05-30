@@ -6,7 +6,7 @@ export class EditPopup extends Component {
     contentInput: Component;
     okButton: Component;
     cancelButton: Component;
-    onOk: ((data: IDashboardRecord) => string) | null = null;
+    onOk: ((data: IDashboardRecord) => Promise<string>) | null = null;
     onCancel: (() => void) | null = null;
     errorField: Component;
     constructor(
@@ -18,9 +18,9 @@ export class EditPopup extends Component {
       this.contentInput = new Component(this.element, 'input');
       this.okButton = new Component(this.element, 'button');
       this.cancelButton = new Component(this.element, 'button');
-      this.okButton.element.onclick = () => {
+      this.okButton.element.onclick = async () => {
         if (this.onOk) {
-          const result = this.onOk(this.getData());
+          const result = await this.onOk(this.getData());
           this.setError(result);
         }
       };

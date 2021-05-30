@@ -8,13 +8,13 @@ export class PopupService {
     }
   
     showEditPopup(
-      onOk: (data: IDashboardRecord) => string | null,
+      onOk: (data: IDashboardRecord) => Promise<string | null>,
       onCancel: () => void,
       initialData?: IDashboardRecord
     ) {
       const form = new EditPopup(this.parentNode, initialData);
-      form.onOk = (obj) => {
-        const result = onOk(obj);
+      form.onOk = async (obj) => {
+        const result = await onOk(obj);
   
         if (result === null) {
           form.destroy();

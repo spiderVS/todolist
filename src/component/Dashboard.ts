@@ -33,7 +33,7 @@ export class Dashboard extends Component {
   
       dashboardItem.onEdit = () => {      
         popupService.showEditPopup(
-          (obj) => {
+          async (obj) => {
             if (data._id){
               this.controller.editItem(obj, data._id);
             } else {

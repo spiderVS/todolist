@@ -2,6 +2,7 @@ import Signal from "../signal";
 import { IDashboardRecord } from "./IdashboardRecord";
 
 const apiUrl = 'http://localhost:4040/todoListService/';
+//const apiUrl = 'http://inikonapp.cloudno.de/todoListService/';
 
 export class DashBoardModel {
   private items: Array<IDashboardRecord>;
@@ -27,16 +28,17 @@ export class DashBoardServerModel {
     this.state = new DashBoardModel();
   }
 
-  getList() {
+  async getList() {
     fetch(`${apiUrl}read`).then(res => res.json()).then(list => {
       this.state.setData(list);
     })
   }
 
-  addRecord(record: IDashboardRecord) {
+  async addRecord(record: IDashboardRecord) {
     let base64Record = btoa(JSON.stringify(record));
-    fetch(`${apiUrl}write?record=${base64Record}`).then(res => res.text()).then(() => {
-      this.getList();
+    return fetch(`${apiUrl}write?record=${base64Record}`).then(res => res.json()).then((result) => {
+      return result
+      //return this.getList();
     });
   }
 
