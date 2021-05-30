@@ -22,6 +22,17 @@ export class DashBoardModel {
   }
 }
 
+class AddRecordResponse{
+  status:string;
+  error:string | null;
+
+  constructor(rawResponse:any){
+    if (!(typeof rawResponse.status === 'string')) { throw new Error('AddRecord response invalid')}
+    this.status = rawResponse.status;
+    this.error = rawResponse.error;
+  }
+}
+
 export class DashBoardServerModel {
   state: DashBoardModel;
   constructor() {
@@ -37,7 +48,7 @@ export class DashBoardServerModel {
   async addRecord(record: IDashboardRecord) {
     let base64Record = btoa(JSON.stringify(record));
     return fetch(`${apiUrl}write?record=${base64Record}`).then(res => res.json()).then((result) => {
-      return result
+      return new AddRecordResponse(result);
       //return this.getList();
     });
   }
