@@ -1,4 +1,5 @@
 # todolist
 Application from the stream for creating a code architecture
 
-https://www.youtube.com/watch?v=uyK8Uda_-NU
+Часть 1: https://www.youtube.com/watch?v=ZgfMDfYFtiA
+Часть 2: https://www.youtube.com/watch?v=uyK8Uda_-NU
