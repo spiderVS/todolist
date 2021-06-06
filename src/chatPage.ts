@@ -4,16 +4,37 @@ import Signal from "./signal";
 
 class ChatModel{
   socket: WebSocket;
+  userList: Array<string> = [];
   onMessage: Signal<string> = new Signal();
   constructor(){
     this.socket = new WebSocket('ws:/localhost:4080');
     this.socket.onmessage = (ev)=>{
-      this.onMessage.emit(ev.data);
+      let data = JSON.parse(ev.data);
+      console.log(data)
+      this.onMessage.emit(data.senderNick +' -> '+data.messageText);
     }
   }
 
   sendMessage(message: string) {
-    this.socket.send(message);
+    this.socket.send(JSON.stringify({
+      service: 'chat',
+      endpoint: 'sendMessage',
+      params:{
+        messageText: message, 
+        sessionId: localStorage.getItem('todoListApplicationSessionId')
+      }
+    }));
+    
+  }
+
+  joinUser() {
+    this.socket.send(JSON.stringify({
+      service: 'chat',
+      endpoint: 'joinUser',
+      params:{
+        sessionId: localStorage.getItem('todoListApplicationSessionId')
+      }
+    }));
     
   }
 
@@ -31,6 +52,10 @@ export class  Chat extends Component {
       this.model.onMessage.add((message)=>{
         let msg = new Component(this.messageContainer.element, 'div',[], message);
       });
+      setTimeout(()=>{
+        this.model.joinUser();
+      }, 1000)
+      
       this.chatInput.element.onkeyup =(e)=>{
         if (e.key=='Enter'){
           this.model.sendMessage((this.chatInput.element as HTMLInputElement).value);
