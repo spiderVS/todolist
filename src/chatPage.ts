@@ -6,12 +6,28 @@ class ChatModel{
   socket: WebSocket;
   userList: Array<string> = [];
   onMessage: Signal<string> = new Signal();
+  onUserList: Signal<Array<string>> = new Signal();
   constructor(){
     this.socket = new WebSocket('ws:/localhost:4080');
+    this.socket.onopen = () =>{
+      this.joinUser();
+    }
+
     this.socket.onmessage = (ev)=>{
       let data = JSON.parse(ev.data);
-      console.log(data)
-      this.onMessage.emit(data.senderNick +' -> '+data.messageText);
+      console.log(data);
+      if (data.type === 'message'){
+        this.onMessage.emit(data.senderNick +' -> '+data.messageText);
+      }
+      /*if (data.type = 'userLeave'){
+        this.onMessage.emit(data.senderNick);
+      }
+      if (data.type = 'userJoin'){
+        this.onMessage.emit(data.senderNick);
+      }*/
+      if (data.type === 'userList'){
+        this.onUserList.emit(data.userList);
+      }
     }
   }
 
@@ -44,17 +60,23 @@ export class  Chat extends Component {
     messageContainer: Component;
     chatInput: Component;
     model: ChatModel = new ChatModel();
+  userListContainer: Component;
 
     constructor(parentNode: HTMLElement | null = null) {
       super(parentNode, 'div', ['main']);
+      this.userListContainer = new Component(this.element);
       this.messageContainer = new Component(this.element);
       this.chatInput = new Component(this.element, 'input');
       this.model.onMessage.add((message)=>{
         let msg = new Component(this.messageContainer.element, 'div',[], message);
       });
-      setTimeout(()=>{
+
+      this.model.onUserList.add((userList)=>{
+        this.userListContainer.element.textContent = userList.join(', ');
+      });
+      /*setTimeout(()=>{
         this.model.joinUser();
-      }, 1000)
+      }, 1000)*/
       
       this.chatInput.element.onkeyup =(e)=>{
         if (e.key=='Enter'){
