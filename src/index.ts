@@ -1,4 +1,5 @@
 import './styles.scss';
+import './header.scss';
 import Signal from './signal';
 import { PopupService, popupService } from './component/Popupservice';
 import { Component } from './component/Component';
@@ -12,7 +13,7 @@ import {Navigation} from './navPanel';
 
 
 class App extends Component {
-  header: Header;
+  //header: Header;
   main: Main;
   chat: Chat;
   auth: Auth;
@@ -23,7 +24,7 @@ class App extends Component {
 
   constructor(parentNode: HTMLElement, popupService: PopupService) {
     super(parentNode, 'div', ['body']);
-    this.header = new Header(this.element);
+    //this.header = new Header(this.element);
     this.navigation = new Navigation(this.element);
     this.router = new Router();
     this.pageContainer = new Component(this.element);
@@ -45,6 +46,7 @@ class App extends Component {
   addPage(linkName: string, pageName:string, pageComponent:Component){
     let route = new Route(pageName, linkName, ()=>{
       pageComponent.element.style.display = '';
+      this.navigation.setActive(pageName);
     },()=>{
       pageComponent.element.style.display = 'none';
     });
