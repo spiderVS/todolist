@@ -9,6 +9,7 @@ import { Main } from './component/Main';
 import { Auth } from './authPage';
 import {Route, Router} from './router';
 import {Navigation} from './navPanel';
+import { ChessPage } from './chessPage';
 
 
 
@@ -21,6 +22,7 @@ class App extends Component {
   navigation: Navigation;
   router: Router;
   pageContainer: Component;
+  chess: ChessPage;
 
   constructor(parentNode: HTMLElement, popupService: PopupService) {
     super(parentNode, 'div', ['body']);
@@ -32,10 +34,12 @@ class App extends Component {
     this.auth = new Auth(this.pageContainer.element);
     this.chat = new Chat(this.pageContainer.element);
     this.main = new Main(this.pageContainer.element);
+    this.chess = new ChessPage(this.pageContainer.element);
     
     this.addPage('чат', 'chat', this.chat);
     this.addPage('авторизация', 'auth', this.auth);
     this.addPage('тудушки', 'todos', this.main);
+    this.addPage('шахматы', 'shess', this.chess);
 
     this.popupLayer = new Component(this.element);
     popupService.init(this.popupLayer.element);
