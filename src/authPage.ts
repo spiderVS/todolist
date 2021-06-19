@@ -8,9 +8,10 @@ import { AuthForm } from "./component/authForm.ts/authForm";
 
 const apiUrl = 'http://localhost:4040/authService/';
 
-interface IAuthData {
-  login: string;
-  password: string;
+
+export interface IAuthData{
+  login:string;
+  password:string;
 }
 
 class AuthModel {
