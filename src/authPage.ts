@@ -5,7 +5,7 @@ import {digestMessage, apiRequest} from './utils';
 
 const apiUrl = 'http://localhost:4040/authService/';
 
-interface IAuthData{
+export interface IAuthData{
   login:string;
   password:string;
 }
