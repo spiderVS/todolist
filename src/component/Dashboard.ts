@@ -1,17 +1,27 @@
 import { Component } from "./Component";
 import { DashBoardController } from "./Dashboardcontroller";
-import { DashboardItem } from "./Dashboarditem";
+import  {DashboardItem} from "./Dashboarditem";
 import { DashBoardModel, DashBoardServerModel } from "./Dashboardmodel";
 import { IDashboardRecord } from "./IdashboardRecord";
 import { popupService } from "./Popupservice";
+
+interface IDashboardItem{
+  destroy: ()=>void;
+}
+
+type IDashboardItemConstructor = (parentNode: HTMLElement | null )=> IDashboardItem;
 
 
 export class Dashboard extends Component {
     private items: Array<DashboardItem> = [];
     public model: DashBoardServerModel;
     private controller: DashBoardController;
+    //ItemClass: IDashboardItemConstructor;
+
     constructor(parentNode: HTMLElement | null = null) {
+      
       super(parentNode, 'div', ['list']);
+    //  this.ItemClass = ItemClass;
       this.model = new DashBoardServerModel();
       this.controller = new DashBoardController(this.model);
       this.model.state.onUpdate.add((data) => {

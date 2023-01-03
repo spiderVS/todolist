@@ -17,7 +17,7 @@
 }
 
 @media (max-width: 768px) {
-  .aside { 
+  .aside {
     text-align: center;
   }
 
@@ -152,3 +152,55 @@ button {
 .list__item_edit-mode .list__label {
   display: none;
 }
+
+////        AUTHFORM/REGFORM  beginning      ////
+.authform_wrapper{
+  margin: 10px;
+  color: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  max-height: 300px;
+  background-color: #3a3a3a88;
+}
+.authform_field{
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 300px;
+  max-width: 400px;
+  background-color: #3a3a3a88;
+}
+.authform_nav{
+  display: flex;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  max-width: 400px;
+  max-height: 100px;
+  background-color: #3a3a3a88;
+  justify-content: space-evenly;
+}
+.authform_input {
+  width: 100%;
+  margin: 20px;
+  max-width: 150px;
+  height: 30px;
+}
+.register,
+.cancel,
+.Login,
+.Cancel {
+  color: #f8f8f8;
+  margin: 10px;
+  width: 100%;
+  max-width: 100px;
+  height: 30px;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 5px;
+}
+
+////        AUTHFORM    ending   ////
